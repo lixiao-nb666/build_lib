@@ -4,7 +4,6 @@ import android.view.View;
 
 public class SelectViewUtil {
     private View[] views;
-    private View nowSelectView;
     private int index;
 
     public SelectViewUtil(View... views){
@@ -17,14 +16,12 @@ public class SelectViewUtil {
         if(null==views||views.length==0||index>=views.length){
             return;
         }
-
-        if(null!=nowSelectView){
-            nowSelectView.setSelected(false);
-            nowSelectView=null;
-        }
         this.index=index;
-        nowSelectView=views[index];
-        nowSelectView.setSelected(true);
+        int i=0;
+        for(View v:views){
+            v.setSelected(i==this.index);
+            i++;
+        }
     }
 
     public int getCount(){
@@ -56,7 +53,7 @@ public class SelectViewUtil {
         setSelectViewByIndex(index);
     }
 
-    public View getNowSelectView(){
-        return nowSelectView;
+    public int getIndex() {
+        return index;
     }
 }
