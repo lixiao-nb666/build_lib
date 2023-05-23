@@ -10,18 +10,20 @@ public class SelectViewUtil {
        this.views=views;
     }
 
-
-
     public void setSelectViewByIndex(int index){
         if(null==views||views.length==0||index>=views.length){
             return;
         }
-        this.index=index;
-        int i=0;
-        for(View v:views){
-            v.setSelected(i==this.index);
-            i++;
+        View view=getNowShowView();
+        if(null!=view){
+            view.setSelected(false);
         }
+        this.index=index;
+        view=getNowShowView();
+        if(null!=view){
+            view.setSelected(true);
+        }
+
     }
 
     public int getCount(){
@@ -55,5 +57,19 @@ public class SelectViewUtil {
 
     public int getIndex() {
         return index;
+    }
+
+    public View getNowShowView(){
+        if(null==views||views.length==0){
+            return null;
+        }
+        if(index<0||index>= views.length){
+            return null;
+        }
+        return views[index];
+    }
+
+    public View[] getViews() {
+        return views;
     }
 }
