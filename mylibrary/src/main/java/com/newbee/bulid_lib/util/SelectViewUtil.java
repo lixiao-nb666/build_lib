@@ -2,28 +2,37 @@ package com.newbee.bulid_lib.util;
 
 import android.view.View;
 
+import com.newbee.bulid_lib.mybase.share.MyShare;
+
 public class SelectViewUtil {
     private View[] views;
     private int index;
+    private final String shareKey="SelectViewUtil:selectIndex";
 
     public SelectViewUtil(View... views){
        this.views=views;
     }
 
+    public int getShareIndex(){
+        String str= MyShare.getInstance().getString(shareKey,"-1");
+        int shareIndex=Integer.valueOf(str);
+        return shareIndex;
+
+    }
+
+
+
     public void setSelectViewByIndex(int index){
         if(null==views||views.length==0||index>=views.length){
             return;
         }
-        View view=getNowShowView();
-        if(null!=view){
-            view.setSelected(false);
-        }
         this.index=index;
-        view=getNowShowView();
-        if(null!=view){
-            view.setSelected(true);
+        int i=0;
+        for(View v:views){
+            v.setSelected(i==this.index);
+            i++;
         }
-
+        MyShare.getInstance().putString(shareKey,this.index+"");
     }
 
     public int getCount(){
@@ -67,9 +76,5 @@ public class SelectViewUtil {
             return null;
         }
         return views[index];
-    }
-
-    public View[] getViews() {
-        return views;
     }
 }
