@@ -39,7 +39,7 @@ public class SelectViewUtil {
             return ;
         }
         index--;
-        if(index==0){
+        if(index<0){
             index=views.length-1;
         }
         setSelectViewByIndex(index);
@@ -54,5 +54,9 @@ public class SelectViewUtil {
             index=0;
         }
         setSelectViewByIndex(index);
+    }
+
+    public View getNowSelectView(){
+        return nowSelectView;
     }
 }
