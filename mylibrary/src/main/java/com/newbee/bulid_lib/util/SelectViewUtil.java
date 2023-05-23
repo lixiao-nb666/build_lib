@@ -22,4 +22,11 @@ public class SelectViewUtil {
         nowSelectView=views[index];
         nowSelectView.setSelected(true);
     }
+
+    public int getCount(){
+        if(null==views){
+            return 0;
+        }
+        return views.length;
+    }
 }
