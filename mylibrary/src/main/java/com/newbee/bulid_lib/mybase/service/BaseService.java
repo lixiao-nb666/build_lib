@@ -26,6 +26,11 @@ public abstract class BaseService extends Service {
     public void onCreate() {
         super.onCreate();
         init();
+        isStart=true;
+        if(null!=statuListen){
+            statuListen.isStart();
+        }
+
     }
 
 
@@ -39,13 +44,32 @@ public abstract class BaseService extends Service {
     public void onDestroy() {
         close();
         super.onDestroy();
-
+        isStart=false;
     }
+
+    private boolean isStart=false;
+    private StatuListen statuListen;
 
     public class BaseServiceBinder extends Binder {
 
         public BaseService getService(){
             return BaseService.this;
         }
+
+        public void setStatuListen(StatuListen setStatuListen){
+            if(null==setStatuListen){
+                return;
+            }
+            statuListen=setStatuListen;
+            if(isStart){
+                statuListen.isStart();
+            }
+        }
+    }
+
+    public interface  StatuListen{
+
+        public void isStart();
+
     }
 }

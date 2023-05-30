@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-
-import com.newbee.bulid_lib.mybase.LG;
+import android.text.TextUtils;
 
 
 /**
@@ -21,14 +20,16 @@ public abstract class BaseServiceDao {
     private BaseService ss;
     protected abstract Class getSsCls();
 
+
+
     public BaseServiceDao(Context context) {
         this.context = context.getApplicationContext();
-
         sc = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 BaseService.BaseServiceBinder serviceBinder = ( BaseService.BaseServiceBinder) service;
                 ss = serviceBinder.getService();
+                serviceBinder.setStatuListen(getStatuListen());
             }
 
             @Override
@@ -37,57 +38,44 @@ public abstract class BaseServiceDao {
         };
     }
 
-    private String packageStr;
-    public void setPackage(String packageStr){
-        this.packageStr=packageStr;
-    }
+
 
     private String actionStr;
     public void setActionStr(String actionStr){
         this.actionStr=actionStr;
     }
 
+    protected BaseService.StatuListen getStatuListen(){
+        return null;
+    }
+
 
     public void startServiceIsBind() {
-        try {
-            LG.i(tag,"startServiceIsBind()");
-            Intent intent = new Intent(context, getSsCls());
-            context.getApplicationContext().bindService(intent, sc, Context.BIND_AUTO_CREATE);
-        } catch (Exception e) {
-            LG.i(tag,"startServiceIsBind()err:"+e.toString());
+        Intent intent = new Intent(context, getSsCls());
+        if(!TextUtils.isEmpty(actionStr)){
+            intent.setAction(actionStr);
         }
+        context.bindService(intent, sc, Context.BIND_AUTO_CREATE);
     }
 
 
 
 
     public void stopServiceIsBind() {
-        try {
-            LG.i(tag,"stopServiceIsBind()");
-            context.unbindService(sc);
-        } catch (Exception e) {
-            LG.i(tag,"stopServiceIsBind()err:"+e.toString());
-        }
+        context.unbindService(sc);
     }
 
 
     public void startService() {
-        try {
-            LG.i(tag,"startService()");
-            Intent intent = new Intent(context, getSsCls());
-            context.getApplicationContext().bindService(intent, sc, Context.BIND_AUTO_CREATE);
-        } catch (Exception e) {
-            LG.i(tag,"startService()err:"+e.toString());
+        Intent intent = new Intent(context, getSsCls());
+        if(!TextUtils.isEmpty(actionStr)){
+            intent.setAction(actionStr);
         }
+        context.startService(intent);
     }
 
     public void stopService() {
-        try {
-            LG.i(tag,"stopService()");
-            context.stopService(new Intent(context,getSsCls()));
-        } catch (Exception e) {
-            LG.i(tag,"stopService()err:"+e.toString());
-        }
+        context.stopService(new Intent(context,getSsCls()));
     }
 
 }
