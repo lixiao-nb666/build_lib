@@ -7,22 +7,34 @@ import com.newbee.bulid_lib.mybase.share.MyShare;
 public class SelectViewUtil {
     private View[] views;
     private int index;
-    private final String shareKey="SelectViewUtil:selectIndex";
+    private String shareKey;
 
     public SelectViewUtil(View... views){
        this.views=views;
+       this.shareKey="SelectViewUtil:selectIndex";
+    }
+
+
+    public SelectViewUtil(String shareKey,View... views){
+        this.shareKey=shareKey;
+        this.views=views;
     }
 
     public int getShareIndex(){
         String str= MyShare.getInstance().getString(shareKey,"-1");
         int shareIndex=Integer.valueOf(str);
         return shareIndex;
+    }
+
+
+    public void recoveryView(int def){
+        index=getShareIndex();
+        setShowView();
 
     }
 
 
-
-    public void setSelectViewByIndex(int index){
+    private void setShowView(){
         if(null==views||views.length==0||index>=views.length){
             return;
         }
@@ -32,6 +44,10 @@ public class SelectViewUtil {
             v.setSelected(i==this.index);
             i++;
         }
+    }
+
+    public void setSelectViewByIndex(int index){
+        setShowView();
         MyShare.getInstance().putString(shareKey,this.index+"");
     }
 
