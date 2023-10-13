@@ -29,16 +29,18 @@ public class SelectViewUtil {
 
     public void recoveryView(int def){
         index=getShareIndex();
+        if(index==-1){
+            index=def;
+        }
         setShowView();
 
     }
 
 
     private void setShowView(){
-        if(null==views||views.length==0||index>=views.length){
+        if(null==views||views.length==0||index>=views.length||index<0){
             return;
         }
-        this.index=index;
         int i=0;
         for(View v:views){
             v.setSelected(i==this.index);
@@ -47,6 +49,7 @@ public class SelectViewUtil {
     }
 
     public void setSelectViewByIndex(int index){
+        this.index=index;
         setShowView();
         MyShare.getInstance().putString(shareKey,this.index+"");
     }
