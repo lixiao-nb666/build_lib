@@ -97,7 +97,7 @@
 
 
         <activity
-            android:name="com.newbee.build.DemoActivity"
+            android:name="com.newbee.build.MainAvtivity"
             android:launchMode="singleTask"
             android:clearTaskOnLaunch="true"
             android:stateNotNeeded="true"

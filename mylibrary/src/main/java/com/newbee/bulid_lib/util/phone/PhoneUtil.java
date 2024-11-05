@@ -1,5 +1,6 @@
 package com.newbee.bulid_lib.util.phone;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -537,6 +538,7 @@ public class PhoneUtil {
      * \* @return
      */
 
+    @SuppressLint("MissingPermission")
     public static String getWifiMac(Context paramContext) {
         String result = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
